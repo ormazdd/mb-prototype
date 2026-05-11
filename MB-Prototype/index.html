@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Migrosbank — Anlegen Navigation (Kievit)</title>
+<style>
+@font-face {
+  font-family: 'Kievit';
+  src: url('MigrosbankKievit-Light.woff2') format('woff2'),
+       url('MigrosbankKievit-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Kievit';
+  src: url('MigrosbankKievit-LightItalic.woff2') format('woff2'),
+       url('MigrosbankKievit-LightItalic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Kievit';
+  src: url('MigrosbankKievit-Book.woff2') format('woff2'),
+       url('MigrosbankKievit-Book.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Kievit';
+  src: url('MigrosbankKievit-BookItalic.woff2') format('woff2'),
+       url('MigrosbankKievit-BookItalic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Kievit';
+  src: url('MigrosbankKievit-Medium.woff2') format('woff2'),
+       url('MigrosbankKievit-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Kievit';
+  src: url('MigrosbankKievit-Bold.woff2') format('woff2'),
+       url('MigrosbankKievit-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Kievit';
+  src: url('MigrosbankKievit-BoldItalic.woff2') format('woff2'),
+       url('MigrosbankKievit-BoldItalic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  /* ── MDX Color Tokens (Figma Foundation 확인) ── */
+  --mb-green:        #144b3c;   /* mdx/sys/color/primary/default */
+  --mb-on-subtle:    #144b3c;   /* mdx/sys/color/primary/onSubtle */
+  --mb-subtle1:      #eff2f1;   /* mdx/sys/color/primary/subtle1 */
+  --mb-subtle2:      #dce4e2;   /* mdx/sys/color/primary/subtle2 */
+  --mb-subtle3:      #c4d2ce;   /* mdx/sys/color/primary/subtle3 */
+  --mb-gray:         #6b7a6c;   /* mdx/sys/color/Tertiary/Dark Green */
+  --mb-gray-light:   #9aab9b;
+  --mb-white:        #ffffff;   /* Grau/Weiss */
+  --mb-bg:           #eef0ef;
+  --mb-orange:       #f07d00;
+  --mb-red:          #e4003a;
+  --mb-accent:       #4f1c68;   /* mdx/sys/color/accent/1/default */
+
+  /* ── Kievit Font Stack ── */
+  --kievit:          'Kievit', 'Helvetica Neue', Arial, sans-serif;
+  --ffs:             'lnum' 1, 'pnum' 1;  /* OpenType lining + proportional nums */
+
+  /* ── MDX Typography Tokens (Figma Foundation 정확한 값) ── */
+  /* fix = 고정 크기, 모든 breakpoint 동일 */
+  --body1-size:      18px;   /* Body1_Regular / Body1_Medium */
+  --body1-weight-r:  400;
+  --body1-weight-m:  500;
+  --body1-lh:        1.5;
+  --body1-ls:        0em;
+
+  --body2-size:      16px;   /* Body2_regular / Body2_Medium */
+  --body2-weight-r:  400;
+  --body2-weight-m:  500;
+  --body2-lh:        1.5;
+  --body2-ls:        0em;
+
+  --body3-size:      14px;   /* Body3_Medium */
+  --body3-weight-m:  500;
+  --body3-lh:        1.5;
+  --body3-ls:        0em;
+
+  --label1-size:     12px;   /* Label1_Regular */
+  --label1-weight:   400;
+  --label1-lh:       1.4;    /* Figma: 1.399999976158142 → 1.4 */
+  --label1-ls:       0em;
+
+  --btn-size:        16px;   /* mobile/button-small */
+  --btn-weight:      500;
+  --btn-lh:          1.2;    /* Figma: 1.2000000476837158 → 1.2 */
+
+  /* ── MDX Spacing & Radius Tokens ── */
+  --spacing-3xs:     4px;    /* mdx/sys/spacing/fix/3xs */
+  --spacing-xs:      12px;   /* mdx/sys/spacing/fix/xs */
+  --spacing-s:       16px;   /* mdx/sys/spacing/fix/s */
+  --radius-s:        6px;    /* Radius-S */
+  --radius-default:  8px;    /* mdx/sys/borderRadius/default */
+}
+
+body {
+  font-family: var(--kievit);
+  font-feature-settings: var(--ffs);
+  background: var(--mb-bg);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { text-decoration: none; }
+a:hover { text-decoration: none; }
+
+/* ── HEADER ── */
+.site-header {
+  background: var(--mb-white);
+  box-shadow: 0 2px 24px rgba(20,75,60,0.08);
+  position: relative;
+  z-index: 100;
+}
+
+/* Meta bar */
+.header-meta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 56px;
+  border-bottom: 0.5px solid rgba(20,75,60,0.08);
+}
+
+.logo-wrap { display: flex; flex-direction: column; justify-content: flex-end; height: 56px; padding-bottom: 5px; }
+.logo-svg-wrap { display: inline-flex; align-items: center; text-decoration: none; }
+.logo-svg-wrap svg { display: block; }
+.logo-css { display: inline-flex; flex-direction: column; align-items: flex-start; text-decoration: none; gap: 0; }
+.logo-text { font-family: var(--kievit); font-weight: 700; font-size: 20px; letter-spacing: 0.08em; line-height: 1; display: block; text-transform: uppercase; }
+.logo-m { color: #f07d00; }
+.logo-b { color: #e4003a; }
+.logo-line { display: block; height: 2px; width: 100%; background: linear-gradient(90deg, #f07d00 50%, #e4003a 50%); margin-top: 3px; }
+
+.meta-nav {
+  display: flex;
+  gap: 0;
+  height: 56px;
+  align-items: stretch;
+}
+.meta-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 12px;
+  text-decoration: none;
+  font-family: var(--kievit);
+  font-weight: 500;
+  font-size: var(--body3-size);
+  line-height: var(--body3-lh);
+  font-feature-settings: var(--ffs);
+  color: var(--mb-gray);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.meta-link span { padding-bottom: 8px; }
+.meta-link .bar { height: 2px; width: 100%; background: transparent; transition: background 0.15s; }
+.meta-link.active { color: var(--mb-green); }
+.meta-link.active .bar { background: var(--mb-green); }
+.meta-link:hover { color: var(--mb-green); }
+
+/* Main nav bar */
+.header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 74px;
+}
+
+.main-nav { display: flex; height: 74px; align-items: stretch; gap: 0; }
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 20px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.nav-item .lbl {
+  font-family: var(--kievit);
+  font-weight: var(--body1-weight-m);
+  font-size: var(--body1-size);
+  line-height: var(--body1-lh);
+  letter-spacing: var(--body1-ls);
+  font-feature-settings: var(--ffs);
+  color: var(--mb-gray);
+  padding-bottom: 20px;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+.nav-item .bar { height: 2px; background: transparent; transition: background 0.15s; }
+.nav-item:hover .lbl { color: var(--mb-green); }
+.nav-item.active .lbl { color: var(--mb-green); font-weight: 500; }
+.nav-item.active .bar { background: var(--mb-green); }
+
+.header-actions { display: flex; align-items: center; gap: 20px; }
+.search-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--mb-green); padding: 4px;
+  display: flex; align-items: center;
+}
+.search-btn svg { width: 22px; height: 22px; }
+
+.login-btn {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.15s;
+  line-height: 0;
+}
+.login-btn:hover { opacity: 0.88; }
+.login-btn-label { display: none; }
+
+/* ── MEGA DROPDOWN ── */
+.dropdown {
+  background: var(--mb-white);
+  border-top: 1px solid var(--mb-subtle3);
+  width: 100%;
+  display: none;
+  padding: 40px 40px 48px;
+  gap: 0;
+  animation: fadeDown 0.16s ease;
+}
+.dropdown.open { display: flex; gap: 0; }
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Left section: Level2 + content */
+.drop-left { display: flex; flex: 1; gap: 0; }
+
+/* Level 2 column */
+.level2 {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-right: 16px;
+}
+
+.l2-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: var(--kievit);
+  font-size: var(--body1-size);
+  font-weight: 400;
+  line-height: var(--body1-lh);
+  font-feature-settings: var(--ffs);
+  color: var(--mb-gray);
+  border: none;
+  background: none;
+  text-align: left;
+  width: 100%;
+  transition: color 0.12s;
+}
+.l2-item svg {
+  width: 14px; height: 14px;
+  opacity: 0;
+  flex-shrink: 0;
+  transition: opacity 0.12s;
+  margin-left: 4px;
+}
+.l2-item:hover { color: var(--mb-green); }
+.l2-item:hover svg { opacity: 1; }
+.l2-item.active {
+  color: var(--mb-green);
+  font-weight: 500;
+}
+.l2-item.active svg { opacity: 1; }
+
+.l2-overview {
+  display: flex; align-items: center; gap: 4px;
+  margin-top: var(--spacing-s);
+  font-family: var(--kievit);
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--mb-green);
+  text-decoration: none;
+  cursor: pointer;
+}
+.l2-overview:hover { opacity: 0.75; }
+.l2-overview svg { width: 14px; height: 14px; }
+
+/* Content column */
+.content-col {
+  flex: 1;
+  padding-left: 24px;
+  border-left: 0.5px solid rgba(20,75,60,0.12);
+}
+
+.content-pane { display: none; }
+.content-pane.active { display: block; }
+
+.content-section-label {
+  font-family: var(--kievit);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mb-gray-light);
+  margin-bottom: 0;
+  margin-top: var(--spacing-s);
+}
+.content-section-label:first-child { margin-top: 0; }
+
+.content-link {
+  display: block;
+  font-family: var(--kievit);
+  font-size: var(--body2-size);
+  font-weight: var(--body2-weight-r);
+  line-height: var(--body2-lh);
+  letter-spacing: var(--body2-ls);
+  font-feature-settings: var(--ffs);
+  color: var(--mb-green);
+  font-feature-settings: var(--ffs);
+  cursor: pointer;
+  padding: 8px 0;
+  transition: opacity 0.12s;
+}
+.content-link:hover {
+  opacity: 0.75;
+}
+
+.service-link {
+  display: block;
+  font-family: var(--kievit);
+  font-size: var(--body2-size);
+  font-weight: 400;
+  color: var(--mb-green);
+  cursor: pointer;
+  padding: 8px 0;
+  transition: opacity 0.12s;
+  opacity: 0.8;
+}
+.service-link:hover { opacity: 1; }
+
+.more-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: var(--spacing-s);
+  font-family: var(--kievit);
+  font-size: var(--label1-size);
+  line-height: var(--label1-lh);
+  font-weight: 400;
+  font-feature-settings: var(--ffs);
+  color: var(--mb-green);
+  text-decoration: none;
+  cursor: pointer;
+}
+.more-link:hover { opacity: 0.75; }
+.more-link svg { width: 16px; height: 16px; }
+
+.overview-cta {
+  display: inline-flex; align-items: center; gap: var(--spacing-3xs);
+  margin-top: var(--spacing-s);
+  font-family: var(--kievit);
+  font-size: var(--label1-size);
+  line-height: var(--label1-lh);
+  font-weight: 400;
+  font-feature-settings: var(--ffs);
+  color: var(--mb-green);
+  text-decoration: none;
+  cursor: pointer;
+}
+.overview-cta:hover { opacity: 0.75; }
+.overview-cta svg { width: 16px; height: 16px; }
+
+/* Schnellzugriff */
+.schnell {
+  width: 320px;
+  flex-shrink: 0;
+  background: var(--mb-subtle1);
+  border-radius: 8px;
+  padding: 28px 24px 28px;
+  margin-left: 40px;
+  align-self: flex-start;
+}
+.schnell-title {
+  font-family: var(--kievit);
+  font-weight: 500;
+  font-size: var(--body2-size);
+  color: var(--mb-green);
+  margin-bottom: var(--spacing-s);
+  font-feature-settings: var(--ffs);
+}
+
+.quick-item {
+  background: var(--mb-white);
+  border-radius: 8px;
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-s);
+  cursor: pointer;
+  text-decoration: none;
+  transition: box-shadow 0.15s;
+}
+.quick-item:last-child { margin-bottom: 0; }
+.quick-item:hover { box-shadow: 0 2px 10px rgba(20,75,60,0.10); }
+
+.quick-left { display: flex; align-items: center; gap: 10px; }
+.quick-icon { width: 26px; height: 26px; color: var(--mb-green); flex-shrink: 0; }
+.quick-icon svg { width: 26px; height: 26px; }
+.quick-label {
+  font-family: var(--kievit);
+  font-size: var(--body2-size);
+  font-weight: 400;
+  color: var(--mb-green);
+  font-feature-settings: var(--ffs);
+}
+.quick-arrow { color: var(--mb-green); }
+.quick-arrow svg { width: 20px; height: 20px; }
+
+/* Overlay */
+.overlay { display: none; position: fixed; inset: 0; z-index: 10; }
+.overlay.open { display: block; }
+
+/* Page */
+.page { padding: 60px 40px; text-align: center; }
+.hint {
+  display: inline-block;
+  font-family: var(--kievit);
+  font-size: 13px;
+  color: var(--mb-gray);
+  background: rgba(255,255,255,0.75);
+  border: 1px solid var(--mb-subtle3);
+  border-radius: 20px;
+  padding: 8px 20px;
+  margin: 4px;
+}
+
+/* ── MOBILE HEADER ── */
+.mob-header {
+  display: none;
+  background: var(--mb-white);
+  box-shadow: 0 2px 16px rgba(20,75,60,0.08);
+  position: relative;
+  z-index: 200;
+}
+.mob-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 56px;
+}
+.mob-logo-css { display: inline-flex; flex-direction: column; align-items: flex-start; text-decoration: none; gap: 2px; }
+.mob-logo-text { font-family: var(--kievit); font-weight: 700; font-size: 18px; letter-spacing: 0.08em; line-height: 1; text-transform: uppercase; }
+.mob-logo-line { display: block; height: 2px; width: 100%; background: linear-gradient(90deg, #f07d00 50%, #e4003a 50%); }
+.mob-actions { display: flex; align-items: center; gap: 4px; }
+.mob-icon-btn {
+  background: none; border: none; cursor: pointer;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; color: var(--mb-green);
+  transition: background 0.15s;
+}
+.mob-icon-btn:hover { background: var(--mb-subtle1); }
+.mob-login {
+  font-family: var(--kievit);
+  font-weight: var(--btn-weight);
+  font-size: 13px;
+  letter-spacing: 0;
+  height: 36px;
+  padding: 0 14px;
+  background: linear-gradient(23.18deg, #d9007e 2.98%, #4f1f68 90.03%);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* ── MOBILE DRAWER ── */
+.mob-drawer {
+  position: fixed;
+  top: 56px; left: 0; right: 0; bottom: 0;
+  background: var(--mb-white);
+  z-index: 150;
+  transform: translateX(-100%);
+  transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.mob-drawer.open { transform: translateX(0); }
+
+.mob-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.32);
+  z-index: 140;
+  top: 56px;
+}
+.mob-overlay.open { display: block; }
+
+/* Drawer top — Schnellzugriff */
+.mob-schnell {
+  background: var(--mb-subtle1);
+  padding: 20px 16px 16px;
+}
+.mob-schnell-title {
+  font-family: var(--kievit);
+  font-weight: 500;
+  font-size: var(--body3-size);
+  color: var(--mb-green);
+  margin-bottom: 10px;
+  font-feature-settings: var(--ffs);
+}
+.mob-quick-row { display: flex; flex-direction: column; gap: 8px; }
+.mob-quick-item {
+  background: var(--mb-white);
+  border-radius: var(--radius-default);
+  padding: 12px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  text-decoration: none;
+}
+.mob-quick-left { display: flex; align-items: center; gap: 8px; }
+.mob-quick-label {
+  font-family: var(--kievit);
+  font-size: var(--body3-size);
+  font-weight: 400;
+  color: var(--mb-green);
+  font-feature-settings: var(--ffs);
+}
+
+/* Level 1 nav list */
+.mob-l1-list { padding: 8px 0; }
+.mob-l1-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  height: 52px;
+  cursor: pointer;
+  border: none; background: none; width: 100%;
+  text-align: left;
+  border-bottom: 0.5px solid rgba(20,75,60,0.07);
+  transition: background 0.12s;
+}
+.mob-l1-item:hover { background: var(--mb-subtle1); }
+.mob-l1-item.active-l1 { background: var(--mb-subtle1); }
+.mob-l1-label {
+  font-family: var(--kievit);
+  font-weight: 400;
+  font-size: var(--body1-size);
+  color: var(--mb-gray);
+  font-feature-settings: var(--ffs);
+  line-height: var(--body1-lh);
+}
+.mob-l1-item.active-l1 .mob-l1-label { color: var(--mb-green); font-weight: 500; }
+.mob-l1-chevron { color: var(--mb-gray); transition: transform 0.2s; flex-shrink: 0; }
+.mob-l1-item.active-l1 .mob-l1-chevron { transform: rotate(90deg); color: var(--mb-green); }
+
+/* Level 2 accordion content */
+.mob-l2-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1);
+  background: #f7f9f8;
+}
+.mob-l2-panel.open { max-height: 800px; }
+.mob-l2-inner { padding: 12px 16px 16px 24px; }
+
+.mob-l2-link {
+  display: block;
+  font-family: var(--kievit);
+  font-size: var(--body2-size);
+  font-weight: 400;
+  line-height: var(--body2-lh);
+  font-feature-settings: var(--ffs);
+  color: var(--mb-green);
+  padding: 6px 0;
+  border-bottom: 0.5px solid rgba(20,75,60,0.06);
+}
+.mob-l2-link:last-of-type { border-bottom: none; }
+.mob-l2-section-label {
+  font-family: var(--kievit);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mb-gray-light);
+  margin: 14px 0 6px;
+  font-feature-settings: var(--ffs);
+}
+.mob-l2-service {
+  display: block;
+  font-family: var(--kievit);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--mb-green);
+  padding: 5px 0;
+  opacity: 0.85;
+  font-feature-settings: var(--ffs);
+}
+.mob-l2-overview {
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-top: 12px;
+  font-family: var(--kievit);
+  font-size: var(--label1-size);
+  font-weight: 400;
+  color: var(--mb-green);
+  text-decoration: none;
+  font-feature-settings: var(--ffs);
+}
+.mob-l2-overview:hover { opacity: 0.75; }
+
+/* Responsive breakpoint */
+@media (max-width: 768px) {
+  .site-header { display: none; }
+  .mob-header { display: block; }
+  .page { padding: 32px 16px; }
+  .overlay { display: none !important; }
+}
+@media (min-width: 769px) {
+  .mob-header { display: none; }
+  .mob-drawer { display: none; }
+  .mob-overlay { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- ── MOBILE HEADER ── -->
+<header class="mob-header">
+  <div class="mob-bar">
+              <a class="logo-svg-wrap" href="#" style="transform:scale(0.55);transform-origin:left center;display:inline-block;"><svg width="201" height="45" viewBox="0 0 201 45" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Migros Bank" role="img">
+<path d="M200.712 35.5247H194.594L188.059 26.4274V35.5247H182.895V16.3608C182.905 16.2505 182.936 16.1433 182.988 16.0454C183.04 15.9474 183.11 15.8607 183.195 15.7901C183.281 15.7196 183.379 15.6666 183.485 15.6343C183.591 15.6021 183.702 15.5911 183.812 15.602H188.079V24.0875L194.697 15.6139H200.458L192.977 24.8622L200.712 35.5247ZM173.992 27.937C172.86 25.8871 165.995 15.6219 165.995 15.6219H160.557V35.5326H165.598V22.9553L173.94 35.5247H178.942V15.6139H173.976L173.992 27.937ZM152.143 15.6219L158.153 35.5326H152.842L151.857 32.1758H145L144.051 35.5326H138.715L144.642 16.2932C144.7 16.0817 144.83 15.8974 145.01 15.773C145.191 15.6486 145.41 15.5922 145.628 15.6139L152.143 15.6219ZM150.975 28.3342L148.555 19.4197H148.313L145.878 28.3342H150.975ZM137.627 30.0147C137.627 34.0548 134.274 35.5207 129.725 35.5207H121.641V16.5078C121.641 16.3888 121.666 16.2712 121.712 16.1617C121.758 16.0522 121.826 15.953 121.911 15.8698C121.996 15.7867 122.097 15.7212 122.207 15.6773C122.318 15.6334 122.436 15.6118 122.555 15.6139H129.833C133.515 15.6139 136.836 16.758 136.836 20.5598C136.836 22.9434 135.895 24.6159 133.873 25.1681C135.99 25.5812 137.643 27.1425 137.643 30.0147H137.627ZM126.396 23.6068H129.177C131.215 23.6068 132.113 22.9513 132.113 21.3981C132.113 19.8448 131.151 19.2409 129.3 19.2409H126.4L126.396 23.6068ZM132.752 29.5062C132.752 27.8297 131.767 27.1226 129.67 27.1226H126.384V31.854H129.491C131.569 31.854 132.764 31.2104 132.764 29.5062H132.752ZM22.7785 39.4377H0.0869141V44.5346H22.7904L22.7785 39.4377ZM71.443 29.7763L73.7193 35.5207H68.3682L66.0085 30.0385C65.5238 28.9222 65.1861 28.37 64.1652 28.37H62.0915V35.5207H57.086V16.4124C57.1069 16.2088 57.1973 16.0186 57.342 15.8739C57.4867 15.7292 57.6769 15.6388 57.8805 15.6179H64.9478C68.7853 15.6179 72.0747 16.4124 72.0747 21.3742C72.0747 23.5909 70.8471 25.8633 68.543 26.3241C69.6712 26.7094 70.8273 28.1793 71.4549 29.7803L71.443 29.7763ZM67.2638 21.7516C67.2638 19.8328 66.0721 19.4515 64.5903 19.4515H62.0875V24.4411H64.5903C66.0879 24.4411 67.2638 23.6466 67.2638 21.7516ZM31.0614 15.6139H26.6915V35.5247H31.8202V16.4124C31.814 16.2093 31.7332 16.0156 31.5932 15.8683C31.4533 15.721 31.2639 15.6304 31.0614 15.6139ZM52.4301 24.0597H45.9627V28.1277H48.4257V31.6395C47.6894 31.7347 46.9474 31.7785 46.205 31.7705C42.4588 31.7705 40.4288 29.387 40.4288 25.5415C40.4288 21.9423 42.1807 19.4515 45.9349 19.4515C47.5296 19.5118 49.0985 19.873 50.559 20.5161L52.5691 17.0917C50.9443 15.9993 48.4257 15.2326 45.5535 15.2326C39.0265 15.2326 35.1135 19.4515 35.1135 25.5614C35.1135 32.3903 39.0265 35.9299 46.4513 35.9299C48.7287 35.9268 51.0007 35.7073 53.2365 35.2744V24.9655C53.2475 24.8521 53.2349 24.7377 53.1996 24.6295C53.1643 24.5212 53.1069 24.4214 53.0312 24.3364C52.9555 24.2513 52.863 24.1829 52.7596 24.1352C52.6561 24.0876 52.5439 24.0619 52.4301 24.0597ZM94.3531 25.5415C94.3531 31.3058 90.8969 35.91 84.791 35.91C78.2719 35.91 74.8237 31.3058 74.8237 25.5415C74.8237 19.7772 78.2719 15.2326 84.791 15.2326C90.8969 15.2326 94.3531 19.8328 94.3531 25.5415ZM88.9821 25.5415C88.9821 21.3702 87.0951 19.4515 84.791 19.4515C82.1055 19.4515 80.1947 21.3702 80.1947 25.5415C80.1947 29.7803 82.1055 31.6911 84.791 31.6911C87.0951 31.6911 88.9821 29.7803 88.9821 25.5415ZM105.492 23.0904C103.772 22.5739 102.402 22.0456 102.402 21.0127C102.402 19.9798 103.47 19.2528 105.357 19.2528C106.922 19.2528 108.321 19.8885 109.687 20.7068L112.464 17.5526C111.209 16.3608 108.746 15.2246 105.564 15.2246C100.749 15.2246 97.0505 17.5526 97.0505 21.7159C97.0505 25.5812 100.395 26.7253 103.268 27.5477C105.651 28.231 107.463 28.6401 107.463 29.9789C107.463 31.409 105.838 31.6553 104.551 31.6553C102.282 31.6553 99.8194 30.4636 98.5521 29.7127L96.2838 33.737C97.6782 34.6944 100.805 35.9021 104.169 35.9021C109.429 35.9021 112.711 33.0775 112.711 28.9699C112.695 24.9933 108.539 24.0279 105.492 23.0904ZM11.5876 26.8564L6.90392 15.6139H0.0869141V35.5247H5.17981V24.0279L10.0304 35.5247H12.7516L17.6935 24.0279V35.5247H22.7904V15.6139H16.4898L11.5876 26.8564Z" fill="url(#paint0_linear_1809_9252)"/>
+<defs>
+<linearGradient id="paint0_linear_mob" x1="0.635134" y1="12.5073" x2="198.614" y2="47.4187" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF8C28"/>
+<stop offset="1" stop-color="#D9007E"/>
+</linearGradient>
+</defs>
+</svg></a><div class="mob-actions">
+      <button class="mob-icon-btn" aria-label="Suche">
+        <svg width="20" height="20" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9.5" cy="9.5" r="6.5"/><line x1="14.5" y1="14.5" x2="21" y2="21"/>
+        </svg>
+      </button>
+      <a class="mob-login" href="#">Login</a>
+      <button class="mob-icon-btn" id="mob-menu-btn" aria-label="Menü öffnen" onclick="toggleDrawer()">
+        <svg id="mob-menu-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+          <line x1="3" y1="6" x2="19" y2="6"/><line x1="3" y1="11" x2="19" y2="11"/><line x1="3" y1="16" x2="19" y2="16"/>
+        </svg>
+        <svg id="mob-close-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" style="display:none">
+          <line x1="4" y1="4" x2="18" y2="18"/><line x1="18" y1="4" x2="4" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ── MOBILE DRAWER ── -->
+<div class="mob-overlay" id="mob-overlay" onclick="toggleDrawer()"></div>
+<nav class="mob-drawer" id="mob-drawer" aria-label="Mobile Navigation">
+
+  <!-- Schnellzugriff -->
+  <div class="mob-schnell">
+    <p class="mob-schnell-title">Schnellzugriff</p>
+    <div class="mob-quick-row">
+      <a class="mob-quick-item" href="#">
+        <div class="mob-quick-left">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#144b3c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="6" width="14" height="10" rx="1.5"/><path d="M16 9h3l3 3-3 3h-3"/><line x1="6" y1="11" x2="11" y2="11"/>
+          </svg>
+          <span class="mob-quick-label">Anlagen im Vergleich</span>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#144b3c" stroke-width="1.6" stroke-linecap="round"><polyline points="5,3 11,8 5,13"/></svg>
+      </a>
+      <a class="mob-quick-item" href="#">
+        <div class="mob-quick-left">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#144b3c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="19" y1="3" x2="19" y2="9"/><line x1="16" y1="6" x2="22" y2="6"/>
+          </svg>
+          <span class="mob-quick-label">Kostenlose Erstberatung</span>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#144b3c" stroke-width="1.6" stroke-linecap="round"><polyline points="5,3 11,8 5,13"/></svg>
+      </a>
+      <a class="mob-quick-item" href="#">
+        <div class="mob-quick-left">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#144b3c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2,17 7,11 12,14 20,6"/><polyline points="16,6 20,6 20,10"/>
+          </svg>
+          <span class="mob-quick-label">Markteinschätzung</span>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#144b3c" stroke-width="1.6" stroke-linecap="round"><polyline points="5,3 11,8 5,13"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Level 1 + Accordion -->
+  <div class="mob-l1-list">
+
+    <!-- Konten & Karten -->
+    <button class="mob-l1-item" onclick="mobToggle(this,'mob-konten')">
+      <span class="mob-l1-label">Konten &amp; Karten</span>
+      <svg class="mob-l1-chevron" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><polyline points="5,3 11,8 5,13"/></svg>
+    </button>
+    <div class="mob-l2-panel" id="mob-konten">
+      <div class="mob-l2-inner">
+        <a class="mob-l2-link" href="#">Privatkonto</a>
+        <a class="mob-l2-link" href="#">Sparkonto</a>
+        <a class="mob-l2-link" href="#">Kreditkarten</a>
+        <a class="mob-l2-link" href="#">Debitkarte</a>
+        <a class="mob-l2-overview" href="#">Konten &amp; Karten im Überblick
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="2" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Hypotheken -->
+    <button class="mob-l1-item" onclick="mobToggle(this,'mob-hypo')">
+      <span class="mob-l1-label">Hypotheken</span>
+      <svg class="mob-l1-chevron" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><polyline points="5,3 11,8 5,13"/></svg>
+    </button>
+    <div class="mob-l2-panel" id="mob-hypo">
+      <div class="mob-l2-inner">
+        <a class="mob-l2-link" href="#">Festhypothek</a>
+        <a class="mob-l2-link" href="#">SARON-Hypothek</a>
+        <a class="mob-l2-link" href="#">Flexible Hypothek</a>
+      </div>
+    </div>
+
+    <!-- Kredite -->
+    <button class="mob-l1-item" onclick="mobToggle(this,'mob-kredite')">
+      <span class="mob-l1-label">Kredite</span>
+      <svg class="mob-l1-chevron" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><polyline points="5,3 11,8 5,13"/></svg>
+    </button>
+    <div class="mob-l2-panel" id="mob-kredite">
+      <div class="mob-l2-inner">
+        <a class="mob-l2-link" href="#">Privatkredit</a>
+        <a class="mob-l2-link" href="#">Autokredit</a>
+        <a class="mob-l2-link" href="#">Leasingfinanzierung</a>
+      </div>
+    </div>
+
+    <!-- Anlegen — pre-open -->
+    <button class="mob-l1-item active-l1" onclick="mobToggle(this,'mob-anlegen')">
+      <span class="mob-l1-label">Anlegen</span>
+      <svg class="mob-l1-chevron" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><polyline points="5,3 11,8 5,13"/></svg>
+    </button>
+    <div class="mob-l2-panel open" id="mob-anlegen">
+      <div class="mob-l2-inner">
+
+        <!-- Anlegen verstehen -->
+        <button class="mob-l1-item" style="padding:0;height:40px;border-bottom:none;margin-bottom:4px;" onclick="mobToggle(this,'mob-a-verstehen')">
+          <span class="mob-l1-label" style="font-size:15px;color:var(--mb-gray);">Anlegen verstehen</span>
+          <svg class="mob-l1-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><polyline points="5,3 11,8 5,13"/></svg>
+        </button>
+        <div class="mob-l2-panel" id="mob-a-verstehen" style="background:transparent;">
+          <div class="mob-l2-inner" style="padding-left:8px;">
+            <a class="mob-l2-link" href="#">Anlegen für Einsteiger: Erste Schritte &amp; Tipps</a>
+            <a class="mob-l2-link" href="#">Welche Anlagelösung passt zu mir?</a>
+            <a class="mob-l2-link" href="#">Was ist der Unterschied zwischen Fonds und Aktien?</a>
+            <a class="mob-l2-link" href="#">Wie kann ich CHF 10'000 am besten investieren?</a>
+            <a class="mob-l2-link" href="#">Investieren mit wenig Geld – so geht's</a>
+          </div>
+        </div>
+
+        <!-- Selbst anlegen -->
+        <button class="mob-l1-item" style="padding:0;height:40px;border-bottom:none;margin-bottom:4px;" onclick="mobToggle(this,'mob-a-selbst')">
+          <span class="mob-l1-label" style="font-size:15px;color:var(--mb-gray);">Selbst anlegen</span>
+          <svg class="mob-l1-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><polyline points="5,3 11,8 5,13"/></svg>
+        </button>
+        <div class="mob-l2-panel" id="mob-a-selbst" style="background:transparent;">
+          <div class="mob-l2-inner" style="padding-left:8px;">
+            <a class="mob-l2-link" href="#">Fondssparplan</a>
+            <a class="mob-l2-link" href="#">Wertschriftendepot</a>
+            <a class="mob-l2-link" href="#">Depot Plus</a>
+            <a class="mob-l2-link" href="#">Edelmetalle &amp; Metallkonto</a>
+            <a class="mob-l2-link" href="#">Festgeld</a>
+            <a class="mob-l2-link" href="#">Kassenobligationen</a>
+            <div class="mob-l2-section-label">Service</div>
+            <a class="mob-l2-service" href="#">Welcher Anlagetyp bin ich?</a>
+            <a class="mob-l2-service" href="#">Anlegen Ratgeber entdecken</a>
+          </div>
+        </div>
+
+        <!-- Anlegen lassen -->
+        <button class="mob-l1-item" style="padding:0;height:40px;border-bottom:none;margin-bottom:4px;" onclick="mobToggle(this,'mob-a-lassen')">
+          <span class="mob-l1-label" style="font-size:15px;color:var(--mb-gray);">Anlegen lassen</span>
+          <svg class="mob-l1-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><polyline points="5,3 11,8 5,13"/></svg>
+        </button>
+        <div class="mob-l2-panel" id="mob-a-lassen" style="background:transparent;">
+          <div class="mob-l2-inner" style="padding-left:8px;">
+            <a class="mob-l2-link" href="#">Digitale Vermögensverwaltung Focus</a>
+            <a class="mob-l2-link" href="#">Impact Investing Inspire</a>
+            <a class="mob-l2-link" href="#">Vermögensverwaltung</a>
+            <a class="mob-l2-link" href="#">Migros Bank Fonds</a>
+            <div class="mob-l2-section-label">Service</div>
+            <a class="mob-l2-service" href="#">Welcher Anlagetyp bin ich?</a>
+            <a class="mob-l2-service" href="#">Was ist ein Fonds? 8 wichtige Fakten</a>
+          </div>
+        </div>
+
+        <!-- Anlageberatung -->
+        <button class="mob-l1-item" style="padding:0;height:40px;border-bottom:none;margin-bottom:4px;" onclick="mobToggle(this,'mob-a-beratung')">
+          <span class="mob-l1-label" style="font-size:15px;color:var(--mb-gray);">Anlageberatung</span>
+          <svg class="mob-l1-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><polyline points="5,3 11,8 5,13"/></svg>
+        </button>
+        <div class="mob-l2-panel" id="mob-a-beratung" style="background:transparent;">
+          <div class="mob-l2-inner" style="padding-left:8px;">
+            <a class="mob-l2-link" href="#">Persönliche Anlageberatung</a>
+            <a class="mob-l2-link" href="#">Online-Beratung vereinbaren</a>
+          </div>
+        </div>
+
+        <!-- Börse & Märkte -->
+        <button class="mob-l1-item" style="padding:0;height:40px;border-bottom:none;" onclick="mobToggle(this,'mob-a-boerse')">
+          <span class="mob-l1-label" style="font-size:15px;color:var(--mb-gray);">Börse &amp; Märkte</span>
+          <svg class="mob-l1-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><polyline points="5,3 11,8 5,13"/></svg>
+        </button>
+        <div class="mob-l2-panel" id="mob-a-boerse" style="background:transparent;">
+          <div class="mob-l2-inner" style="padding-left:8px;">
+            <a class="mob-l2-link" href="#">Börsenhandel &amp; Kurse</a>
+            <a class="mob-l2-link" href="#">Markteinschätzung</a>
+            <a class="mob-l2-link" href="#">Aktienhandel</a>
+          </div>
+        </div>
+
+        <a class="mob-l2-overview" href="#" style="margin:14px 0 4px;">
+          Anlegen im Überblick
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="2" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Vorsorgen -->
+    <button class="mob-l1-item" onclick="mobToggle(this,'mob-vorsorgen')">
+      <span class="mob-l1-label">Vorsorgen</span>
+      <svg class="mob-l1-chevron" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><polyline points="5,3 11,8 5,13"/></svg>
+    </button>
+    <div class="mob-l2-panel" id="mob-vorsorgen">
+      <div class="mob-l2-inner">
+        <a class="mob-l2-link" href="#">Säule 3a</a>
+        <a class="mob-l2-link" href="#">Pensionskasse</a>
+        <a class="mob-l2-link" href="#">Vorsorgerechner</a>
+      </div>
+    </div>
+
+    <!-- E-Banking -->
+    <button class="mob-l1-item" onclick="mobToggle(this,'mob-ebanking')">
+      <span class="mob-l1-label">E-Banking</span>
+      <svg class="mob-l1-chevron" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><polyline points="5,3 11,8 5,13"/></svg>
+    </button>
+    <div class="mob-l2-panel" id="mob-ebanking">
+      <div class="mob-l2-inner">
+        <a class="mob-l2-link" href="#">Login E-Banking</a>
+        <a class="mob-l2-link" href="#">E-Banking App</a>
+        <a class="mob-l2-link" href="#">Twint</a>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<header class="site-header">
+
+  <!-- Meta bar -->
+  <div class="header-meta">
+    <div class="logo-wrap">
+      <a class="logo-svg-wrap" href="#"><svg width="201" height="45" viewBox="0 0 201 45" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Migros Bank" role="img">
+<path d="M200.712 35.5247H194.594L188.059 26.4274V35.5247H182.895V16.3608C182.905 16.2505 182.936 16.1433 182.988 16.0454C183.04 15.9474 183.11 15.8607 183.195 15.7901C183.281 15.7196 183.379 15.6666 183.485 15.6343C183.591 15.6021 183.702 15.5911 183.812 15.602H188.079V24.0875L194.697 15.6139H200.458L192.977 24.8622L200.712 35.5247ZM173.992 27.937C172.86 25.8871 165.995 15.6219 165.995 15.6219H160.557V35.5326H165.598V22.9553L173.94 35.5247H178.942V15.6139H173.976L173.992 27.937ZM152.143 15.6219L158.153 35.5326H152.842L151.857 32.1758H145L144.051 35.5326H138.715L144.642 16.2932C144.7 16.0817 144.83 15.8974 145.01 15.773C145.191 15.6486 145.41 15.5922 145.628 15.6139L152.143 15.6219ZM150.975 28.3342L148.555 19.4197H148.313L145.878 28.3342H150.975ZM137.627 30.0147C137.627 34.0548 134.274 35.5207 129.725 35.5207H121.641V16.5078C121.641 16.3888 121.666 16.2712 121.712 16.1617C121.758 16.0522 121.826 15.953 121.911 15.8698C121.996 15.7867 122.097 15.7212 122.207 15.6773C122.318 15.6334 122.436 15.6118 122.555 15.6139H129.833C133.515 15.6139 136.836 16.758 136.836 20.5598C136.836 22.9434 135.895 24.6159 133.873 25.1681C135.99 25.5812 137.643 27.1425 137.643 30.0147H137.627ZM126.396 23.6068H129.177C131.215 23.6068 132.113 22.9513 132.113 21.3981C132.113 19.8448 131.151 19.2409 129.3 19.2409H126.4L126.396 23.6068ZM132.752 29.5062C132.752 27.8297 131.767 27.1226 129.67 27.1226H126.384V31.854H129.491C131.569 31.854 132.764 31.2104 132.764 29.5062H132.752ZM22.7785 39.4377H0.0869141V44.5346H22.7904L22.7785 39.4377ZM71.443 29.7763L73.7193 35.5207H68.3682L66.0085 30.0385C65.5238 28.9222 65.1861 28.37 64.1652 28.37H62.0915V35.5207H57.086V16.4124C57.1069 16.2088 57.1973 16.0186 57.342 15.8739C57.4867 15.7292 57.6769 15.6388 57.8805 15.6179H64.9478C68.7853 15.6179 72.0747 16.4124 72.0747 21.3742C72.0747 23.5909 70.8471 25.8633 68.543 26.3241C69.6712 26.7094 70.8273 28.1793 71.4549 29.7803L71.443 29.7763ZM67.2638 21.7516C67.2638 19.8328 66.0721 19.4515 64.5903 19.4515H62.0875V24.4411H64.5903C66.0879 24.4411 67.2638 23.6466 67.2638 21.7516ZM31.0614 15.6139H26.6915V35.5247H31.8202V16.4124C31.814 16.2093 31.7332 16.0156 31.5932 15.8683C31.4533 15.721 31.2639 15.6304 31.0614 15.6139ZM52.4301 24.0597H45.9627V28.1277H48.4257V31.6395C47.6894 31.7347 46.9474 31.7785 46.205 31.7705C42.4588 31.7705 40.4288 29.387 40.4288 25.5415C40.4288 21.9423 42.1807 19.4515 45.9349 19.4515C47.5296 19.5118 49.0985 19.873 50.559 20.5161L52.5691 17.0917C50.9443 15.9993 48.4257 15.2326 45.5535 15.2326C39.0265 15.2326 35.1135 19.4515 35.1135 25.5614C35.1135 32.3903 39.0265 35.9299 46.4513 35.9299C48.7287 35.9268 51.0007 35.7073 53.2365 35.2744V24.9655C53.2475 24.8521 53.2349 24.7377 53.1996 24.6295C53.1643 24.5212 53.1069 24.4214 53.0312 24.3364C52.9555 24.2513 52.863 24.1829 52.7596 24.1352C52.6561 24.0876 52.5439 24.0619 52.4301 24.0597ZM94.3531 25.5415C94.3531 31.3058 90.8969 35.91 84.791 35.91C78.2719 35.91 74.8237 31.3058 74.8237 25.5415C74.8237 19.7772 78.2719 15.2326 84.791 15.2326C90.8969 15.2326 94.3531 19.8328 94.3531 25.5415ZM88.9821 25.5415C88.9821 21.3702 87.0951 19.4515 84.791 19.4515C82.1055 19.4515 80.1947 21.3702 80.1947 25.5415C80.1947 29.7803 82.1055 31.6911 84.791 31.6911C87.0951 31.6911 88.9821 29.7803 88.9821 25.5415ZM105.492 23.0904C103.772 22.5739 102.402 22.0456 102.402 21.0127C102.402 19.9798 103.47 19.2528 105.357 19.2528C106.922 19.2528 108.321 19.8885 109.687 20.7068L112.464 17.5526C111.209 16.3608 108.746 15.2246 105.564 15.2246C100.749 15.2246 97.0505 17.5526 97.0505 21.7159C97.0505 25.5812 100.395 26.7253 103.268 27.5477C105.651 28.231 107.463 28.6401 107.463 29.9789C107.463 31.409 105.838 31.6553 104.551 31.6553C102.282 31.6553 99.8194 30.4636 98.5521 29.7127L96.2838 33.737C97.6782 34.6944 100.805 35.9021 104.169 35.9021C109.429 35.9021 112.711 33.0775 112.711 28.9699C112.695 24.9933 108.539 24.0279 105.492 23.0904ZM11.5876 26.8564L6.90392 15.6139H0.0869141V35.5247H5.17981V24.0279L10.0304 35.5247H12.7516L17.6935 24.0279V35.5247H22.7904V15.6139H16.4898L11.5876 26.8564Z" fill="url(#paint0_linear_mob)"/>
+<defs>
+<linearGradient id="paint0_linear_mob" x1="0.635134" y1="12.5073" x2="198.614" y2="47.4187" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF8C28"/>
+<stop offset="1" stop-color="#D9007E"/>
+</linearGradient>
+</defs>
+</svg></a>
+    </div>
+    <nav class="meta-nav" aria-label="Meta Navigation">
+      <a class="meta-link active" href="#"><span>Privatpersonen</span><div class="bar"></div></a>
+      <a class="meta-link" href="#"><span>Firmen</span><div class="bar"></div></a>
+      <a class="meta-link" href="#"><span>Ratgeber</span><div class="bar"></div></a>
+      <a class="meta-link" href="#"><span>Über uns</span><div class="bar"></div></a>
+      <a class="meta-link" href="#"><span>Hilfe</span><div class="bar"></div></a>
+      <a class="meta-link" href="#"><span>Kontakt</span><div class="bar"></div></a>
+    </nav>
+  </div>
+
+  <!-- Main nav -->
+  <div class="header-main">
+    <nav class="main-nav" aria-label="Hauptnavigation">
+      <a class="nav-item" href="#" onclick="return closeAll()">
+        <span class="lbl">Konten &amp; Karten</span><div class="bar"></div>
+      </a>
+      <a class="nav-item" href="#" onclick="return closeAll()">
+        <span class="lbl">Hypotheken</span><div class="bar"></div>
+      </a>
+      <a class="nav-item" href="#" onclick="return closeAll()">
+        <span class="lbl">Kredite</span><div class="bar"></div>
+      </a>
+      <a class="nav-item active" href="#" id="tab-anlegen"
+         onclick="toggleDrop(event,'anlegen')" aria-expanded="false" aria-haspopup="true">
+        <span class="lbl">Anlegen</span><div class="bar"></div>
+      </a>
+      <a class="nav-item" href="#" onclick="return closeAll()">
+        <span class="lbl">Vorsorgen</span><div class="bar"></div>
+      </a>
+      <a class="nav-item" href="#" onclick="return closeAll()">
+        <span class="lbl">E-Banking</span><div class="bar"></div>
+      </a>
+    </nav>
+    <div class="header-actions">
+      <button class="search-btn" aria-label="Suche">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#144b3c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9.5" cy="9.5" r="6.5"/>
+          <line x1="14.5" y1="14.5" x2="21" y2="21"/>
+        </svg>
+      </button>
+      <a class="login-btn" href="#" aria-label="Login E-Banking"><svg width="228" height="48" viewBox="0 0 228 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+<path d="M0 6C0 2.68629 2.68629 0 6 0H222C225.314 0 228 2.68629 228 6V42C228 45.3137 225.314 48 222 48H6C2.6863 48 0 45.3137 0 42V6Z" fill="url(#paint0_linear_btn)"/>
+<path d="M0 6C0 2.68629 2.68629 0 6 0H19.9223L43 48H6C2.68629 48 0 45.3137 0 42V6Z" fill="#4F1C68"/>
+<path d="M60.7291 29.5V18.844H62.5371V28.028H66.6011V29.5H60.7291ZM71.2962 29.692C68.6242 29.692 67.5522 27.548 67.5522 25.644C67.5522 23.74 68.5922 21.564 71.2642 21.564C73.9202 21.564 75.0882 23.692 75.0882 25.596C75.0882 27.484 73.9522 29.692 71.2962 29.692ZM71.3122 28.348C72.7042 28.348 73.2802 27.196 73.2802 25.644C73.2802 24.108 72.6242 22.892 71.2322 22.892C69.8562 22.892 69.3442 24.06 69.3442 25.596C69.3442 27.132 69.9362 28.348 71.3122 28.348ZM79.3608 33.308C77.3448 33.308 76.0968 32.588 76.0968 31.164C76.0968 30.22 76.8168 29.596 77.5848 29.244V29.212C77.1528 28.972 76.8168 28.588 76.8168 27.98C76.8168 27.34 77.2648 26.876 77.7448 26.604V26.572C76.9288 26.124 76.3848 25.388 76.3848 24.284C76.3848 22.7 77.5688 21.564 79.5528 21.564C80.0328 21.564 80.4648 21.628 80.8488 21.756H83.5368V22.94H82.3368C82.6248 23.356 82.7688 23.772 82.7688 24.284C82.7688 25.868 81.5848 26.988 79.6168 26.988C79.3128 26.988 79.0568 26.956 78.7688 26.908C78.5128 27.052 78.3368 27.292 78.3368 27.532C78.3368 27.996 78.8168 28.14 79.7448 28.188C81.3928 28.268 83.5528 28.22 83.5528 30.412C83.5528 32.108 81.7928 33.308 79.3608 33.308ZM79.5848 25.788C80.5288 25.788 81.1048 25.196 81.1048 24.284C81.1048 23.356 80.4968 22.764 79.5688 22.764C78.6408 22.764 78.0648 23.356 78.0648 24.284C78.0648 25.196 78.6728 25.788 79.5848 25.788ZM79.5368 32.108C80.9288 32.108 81.8728 31.5 81.8728 30.684C81.8728 29.692 80.9288 29.708 79.9048 29.66C79.4568 29.628 79.0408 29.596 78.6408 29.548C78.1128 29.868 77.7608 30.38 77.7608 30.924C77.7608 31.612 78.3368 32.108 79.5368 32.108ZM86.0733 20.556C85.4493 20.556 84.9693 20.06 84.9693 19.468C84.9693 18.876 85.4493 18.38 86.0733 18.38C86.7133 18.38 87.1933 18.876 87.1933 19.468C87.1933 20.06 86.7133 20.556 86.0733 20.556ZM85.2253 29.5V21.756H86.9373V29.5H85.2253ZM89.3629 29.5V21.756H91.0429V22.796C91.6669 22.044 92.4989 21.564 93.5229 21.564C95.1869 21.564 95.8269 22.652 95.8269 24.028V29.5H94.1309V24.38C94.1309 23.516 93.8269 23.02 92.9469 23.02C92.1789 23.02 91.4909 23.612 91.0749 24.188V29.5H89.3629ZM101.682 29.5V18.844H107.522V20.348H103.474V23.196H107.042V24.636H103.474V27.996H107.634V29.5H101.682ZM109.324 25.66V24.252H112.78V25.66H109.324ZM115.041 29.5V18.844H118.257C120.241 18.844 121.857 19.532 121.857 21.5C121.857 22.828 121.121 23.596 119.953 23.9V23.932C121.249 24.14 122.305 25.02 122.305 26.524C122.305 28.7 120.625 29.5 118.209 29.5H115.041ZM116.817 23.308H118.049C119.441 23.308 120.049 22.812 120.049 21.74C120.049 20.716 119.377 20.268 118.081 20.268H116.817V23.308ZM116.817 28.076H118.145C119.697 28.076 120.465 27.596 120.465 26.428C120.465 25.308 119.841 24.668 118.241 24.668H116.817V28.076ZM125.825 29.692C124.529 29.692 123.553 28.892 123.553 27.548C123.553 25.532 125.713 24.844 127.681 24.844H127.985V24.284C127.985 23.356 127.585 22.956 126.593 22.956C125.809 22.956 125.169 23.26 124.609 23.74L123.809 22.652C124.497 22.028 125.473 21.564 126.769 21.564C128.689 21.564 129.681 22.38 129.681 24.3V27.452C129.681 28.364 129.777 29.068 129.873 29.5H128.193C128.145 29.292 128.081 28.86 128.065 28.62C127.617 29.196 126.817 29.692 125.825 29.692ZM126.273 28.38C127.025 28.38 127.585 28.012 127.985 27.516V25.964H127.681C126.257 25.964 125.249 26.364 125.249 27.452C125.249 28.124 125.793 28.38 126.273 28.38ZM131.925 29.5V21.756H133.605V22.796C134.229 22.044 135.061 21.564 136.085 21.564C137.749 21.564 138.389 22.652 138.389 24.028V29.5H136.693V24.38C136.693 23.516 136.389 23.02 135.509 23.02C134.741 23.02 134.053 23.612 133.637 24.188V29.5H131.925ZM140.612 29.5V17.98H142.308V25.084L145.188 21.756H147.092L144.068 25.196L147.204 29.5H145.204L142.308 25.42V29.5H140.612ZM149.542 20.556C148.918 20.556 148.438 20.06 148.438 19.468C148.438 18.876 148.918 18.38 149.542 18.38C150.182 18.38 150.662 18.876 150.662 19.468C150.662 20.06 150.182 20.556 149.542 20.556ZM148.694 29.5V21.756H150.406V29.5H148.694ZM152.832 29.5V21.756H154.512V22.796C155.136 22.044 155.968 21.564 156.992 21.564C158.656 21.564 159.296 22.652 159.296 24.028V29.5H157.6V24.38C157.6 23.516 157.296 23.02 156.416 23.02C155.648 23.02 154.96 23.612 154.544 24.188V29.5H152.832ZM164.126 33.308C162.11 33.308 160.862 32.588 160.862 31.164C160.862 30.22 161.582 29.596 162.35 29.244V29.212C161.918 28.972 161.582 28.588 161.582 27.98C161.582 27.34 162.03 26.876 162.51 26.604V26.572C161.694 26.124 161.15 25.388 161.15 24.284C161.15 22.7 162.334 21.564 164.318 21.564C164.798 21.564 165.23 21.628 165.614 21.756H168.302V22.94H167.102C167.39 23.356 167.534 23.772 167.534 24.284C167.534 25.868 166.35 26.988 164.382 26.988C164.078 26.988 163.822 26.956 163.534 26.908C163.278 27.052 163.102 27.292 163.102 27.532C163.102 27.996 163.582 28.14 164.51 28.188C166.158 28.268 168.318 28.22 168.318 30.412C168.318 32.108 166.558 33.308 164.126 33.308ZM164.35 25.788C165.294 25.788 165.87 25.196 165.87 24.284C165.87 23.356 165.262 22.764 164.334 22.764C163.406 22.764 162.83 23.356 162.83 24.284C162.83 25.196 163.438 25.788 164.35 25.788ZM164.302 32.108C165.694 32.108 166.638 31.5 166.638 30.684C166.638 29.692 165.694 29.708 164.67 29.66C164.222 29.628 163.806 29.596 163.406 29.548C162.878 29.868 162.526 30.38 162.526 30.924C162.526 31.612 163.102 32.108 164.302 32.108Z" fill="white"/>
+<path d="M228 6C228 2.68629 225.314 0 222 0H208.078L185 48H222C225.314 48 228 45.3137 228 42V6Z" fill="url(#paint1_linear_btn)"/>
+<defs>
+<linearGradient id="paint0_linear_btn" x1="101.632" y1="81" x2="130.184" y2="-17.0691" gradientUnits="userSpaceOnUse">
+<stop stop-color="#D9007E"/>
+<stop offset="1" stop-color="#4F1F68"/>
+</linearGradient>
+<linearGradient id="paint1_linear_btn" x1="180.476" y1="23.9998" x2="303.421" y2="23.9998" gradientUnits="userSpaceOnUse">
+<stop stop-color="#D9007E"/>
+<stop offset="1" stop-color="#FF8C28"/>
+</linearGradient>
+</defs>
+</svg></a>
+    </div>
+  </div>
+
+  <!-- Mega Dropdown -->
+  <div class="dropdown" id="drop-anlegen" role="region" aria-label="Anlegen Navigation">
+    <div class="drop-left">
+
+      <!-- Level 2 -->
+      <nav class="level2" aria-label="Anlegen Kategorien">
+        <button class="l2-item active" data-pane="verstehen" onclick="switchPane(this,'verstehen')">
+          Anlegen verstehen
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="5,3 11,8 5,13"/></svg>
+        </button>
+        <button class="l2-item" data-pane="selbst" onclick="switchPane(this,'selbst')">
+          Selbst anlegen
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="5,3 11,8 5,13"/></svg>
+        </button>
+        <button class="l2-item" data-pane="lassen" onclick="switchPane(this,'lassen')">
+          Anlegen lassen
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="5,3 11,8 5,13"/></svg>
+        </button>
+        <button class="l2-item" data-pane="beratung" onclick="switchPane(this,'beratung')">
+          Anlageberatung
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="5,3 11,8 5,13"/></svg>
+        </button>
+        <button class="l2-item" data-pane="boerse" onclick="switchPane(this,'boerse')">
+          Börse &amp; Märkte
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="5,3 11,8 5,13"/></svg>
+        </button>
+        <a class="l2-overview" href="#">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="2" y1="8" x2="12" y2="8"/><polyline points="8,4 12,8 8,12"/></svg>
+          Zur Übersicht
+        </a>
+      </nav>
+
+      <!-- Content column -->
+      <div class="content-col">
+
+        <!-- Pane: Anlegen verstehen -->
+        <div class="content-pane active" id="pane-verstehen">
+          <a class="content-link" href="#">Anlegen für Einsteiger: Erste Schritte &amp; Tipps</a>
+          <a class="content-link" href="#">Welche Anlagelösung passt zu mir?</a>
+          <a class="content-link" href="#">Was ist der Unterschied zwischen Fonds und Aktien?</a>
+          <a class="content-link" href="#">Wie kann ich CHF 10'000 am besten investieren?</a>
+          <a class="content-link" href="#">Investieren mit wenig Geld – so geht's</a>
+          <a class="content-link" href="#">Diversifikation einfach erklärt</a>
+          <a class="more-link" href="#">
+            Weitere Anlage-Ratgeber entdecken
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><line x1="2" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+          </a>
+        </div>
+
+        <!-- Pane: Selbst anlegen -->
+        <div class="content-pane" id="pane-selbst">
+          <a class="content-link" href="#">Fondssparplan</a>
+          <a class="content-link" href="#">Fondssparplan Free25: Für alle unter 25 Jahren</a>
+          <a class="content-link" href="#">Wertschriftendepot</a>
+          <a class="content-link" href="#">Depot Plus</a>
+          <a class="content-link" href="#">Edelmetalle &amp; Metallkonto</a>
+          <a class="content-link" href="#">Lombardkredit</a>
+          <a class="content-link" href="#">Strukturierte Produkte</a>
+          <a class="content-link" href="#">Festgeld</a>
+          <a class="content-link" href="#">Kassenobligationen</a>
+          <div class="content-section-label" style="margin-top:18px;">Service</div>
+          <a class="service-link" href="#">Welcher Anlagetyp bin ich?</a>
+          <a class="service-link" href="#">Anlegen Ratgeber entdecken</a>
+          <a class="service-link" href="#">Aktien vor Kursverlust schützen</a>
+          <a class="overview-cta" href="#">
+            Anlegen im Überblick
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><line x1="2" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+          </a>
+        </div>
+
+        <!-- Pane: Anlegen lassen -->
+        <div class="content-pane" id="pane-lassen">
+          <a class="content-link" href="#">Digitale Vermögensverwaltung Focus</a>
+          <a class="content-link" href="#">Impact Investing Inspire: Nachhaltig anlegen</a>
+          <a class="content-link" href="#">Vermögensverwaltung</a>
+          <a class="content-link" href="#">Migros Bank Fonds</a>
+          <div class="content-section-label" style="margin-top:18px;">Service</div>
+          <a class="service-link" href="#">Welcher Anlagetyp bin ich?</a>
+          <a class="service-link" href="#">Anlegen Ratgeber entdecken</a>
+          <a class="service-link" href="#">Was ist ein Fonds? 8 wichtige Fakten</a>
+          <a class="overview-cta" href="#">
+            Anlegen im Überblick
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><line x1="2" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+          </a>
+        </div>
+
+        <!-- Pane: Anlageberatung -->
+        <div class="content-pane" id="pane-beratung">
+          <a class="content-link" href="#">Persönliche Anlageberatung</a>
+          <a class="content-link" href="#">Online-Beratung vereinbaren</a>
+          <a class="content-link" href="#">Beratungsleistungen im Überblick</a>
+          <div class="content-section-label" style="margin-top:18px;">Service</div>
+          <a class="service-link" href="#">Kostenlose Erstberatung buchen</a>
+          <a class="service-link" href="#">Anlageberatung – so läuft's ab</a>
+        </div>
+
+        <!-- Pane: Börse & Märkte -->
+        <div class="content-pane" id="pane-boerse">
+          <a class="content-link" href="#">Börsenhandel &amp; Kurse</a>
+          <a class="content-link" href="#">Markteinschätzung</a>
+          <a class="content-link" href="#">Anlageideen &amp; Research</a>
+          <a class="content-link" href="#">Aktienhandel</a>
+          <div class="content-section-label" style="margin-top:18px;">Service</div>
+          <a class="service-link" href="#">Börsenkurse live</a>
+          <a class="service-link" href="#">Marktkommentar abonnieren</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Schnellzugriff -->
+    <div class="schnell">
+      <p class="schnell-title">Schnellzugriff</p>
+      <a class="quick-item" href="#">
+        <div class="quick-left">
+          <div class="quick-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#144b3c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="6" width="14" height="10" rx="1.5"/>
+              <path d="M16 9h3l3 3-3 3h-3"/>
+              <line x1="6" y1="11" x2="11" y2="11"/>
+            </svg>
+          </div>
+          <span class="quick-label">Anlagen im Vergleich</span>
+        </div>
+        <div class="quick-arrow">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#144b3c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="7,5 13,10 7,15"/></svg>
+        </div>
+      </a>
+      <a class="quick-item" href="#">
+        <div class="quick-left">
+          <div class="quick-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#144b3c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+              <line x1="19" y1="3" x2="19" y2="9"/>
+              <line x1="16" y1="6" x2="22" y2="6"/>
+            </svg>
+          </div>
+          <span class="quick-label">Kostenlose Erstberatung</span>
+        </div>
+        <div class="quick-arrow">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#144b3c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="7,5 13,10 7,15"/></svg>
+        </div>
+      </a>
+      <a class="quick-item" href="#">
+        <div class="quick-left">
+          <div class="quick-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#144b3c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="2,17 7,11 12,14 20,6"/>
+              <polyline points="16,6 20,6 20,10"/>
+            </svg>
+          </div>
+          <span class="quick-label">Markteinschätzung</span>
+        </div>
+        <div class="quick-arrow">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#144b3c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="7,5 13,10 7,15"/></svg>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</header>
+
+<div class="page">
+  <p class="hint">☝️ "Anlegen" 클릭 → 드롭다운 열기 &nbsp;|&nbsp; Level 2 항목 클릭 → 콘텐츠 전환</p>
+  <p class="hint" style="margin-top:6px">Kievit Book / Medium / Bold 실제 폰트 적용됨</p>
+</div>
+
+<script>
+let current = null;
+
+function toggleDrop(e, id) {
+  e.preventDefault();
+  const drop = document.getElementById('drop-' + id);
+  const tab  = document.getElementById('tab-' + id);
+  const ov   = document.getElementById('overlay');
+
+  if (current === id) { closeAll(); return; }
+
+  document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+  document.querySelectorAll('.nav-item').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-expanded','false'); });
+  ov.classList.remove('open');
+
+  drop.classList.add('open');
+  tab.classList.add('active');
+  tab.setAttribute('aria-expanded', 'true');
+  ov.classList.add('open');
+  current = id;
+  return false;
+}
+
+function closeAll() {
+  document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+  document.querySelectorAll('.nav-item').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-expanded','false'); });
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('tab-anlegen').classList.add('active');
+  current = null;
+  return false;
+}
+
+function switchPane(btn, paneId) {
+  document.querySelectorAll('.l2-item').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.content-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pane-' + paneId).classList.add('active');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    document.getElementById('drop-anlegen').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+    document.getElementById('tab-anlegen').setAttribute('aria-expanded','true');
+    current = 'anlegen';
+  }, 200);
+});
+
+/* ── MOBILE JS ── */
+let drawerOpen = false;
+
+function toggleDrawer() {
+  drawerOpen = !drawerOpen;
+  document.getElementById('mob-drawer').classList.toggle('open', drawerOpen);
+  document.getElementById('mob-overlay').classList.toggle('open', drawerOpen);
+  document.getElementById('mob-menu-icon').style.display = drawerOpen ? 'none' : '';
+  document.getElementById('mob-close-icon').style.display = drawerOpen ? '' : 'none';
+  document.body.style.overflow = drawerOpen ? 'hidden' : '';
+}
+
+function mobToggle(btn, panelId) {
+  const panel = document.getElementById(panelId);
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  btn.classList.toggle('active-l1', !isOpen);
+}
+</script>
+</body>
+</html>
